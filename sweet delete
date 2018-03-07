@@ -1,0 +1,58 @@
+ sweet alert :
+ 
+ 
+ 
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="{{ asset('project/backend/js/sweetalert.min.js')}}"></script>
+<link rel="stylesheet" href="{{ asset('project/backend/css/sweetalert.css')}}">
+
+
+  
+  <script>
+  $('.delete').click(function(e) {
+    e.preventDefault(); // Prevent the href from redirecting directly
+    var linkURL = $(this).attr("href");
+    warnBeforeRedirect(linkURL);
+  });
+
+  function warnBeforeRedirect(linkURL) {
+    swal({
+      title: "Sure want to delete?", 
+      text: "If you click 'OK' file will be deleted", 
+      type: "warning",
+      showCancelButton: true
+    }, function() {
+      // Redirect the user | linkURL is href url
+      window.location.href = linkURL;
+    });
+  }
+  </script>
+
+
+  
+  
+  Buttton :
+  
+  <td><a class="btn btn-danger delete" href="{{ url('admin/research_delete/'.$r->id) }}">Delete</a></td>
+  
+  
+  
+  Controller :
+  
+  
+  public function research_delete($id){
+
+		$DeleteResearch = Research::find($id);
+
+		$file = $DeleteResearch->file;
+		$rich_editor_file = $DeleteResearch->rich_editor_file;
+		$cover_image = $DeleteResearch->cover_image;
+
+		unlink("project/backend/research/file/".$file);
+		unlink("project/backend/research/rich_editor_file/".$rich_editor_file);
+		unlink("project/backend/research/cover_image/".$cover_image);
+
+		$DeleteResearch->delete();
+
+
+	}
