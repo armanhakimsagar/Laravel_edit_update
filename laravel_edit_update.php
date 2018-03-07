@@ -24,25 +24,41 @@
 
 
 
+   public function Research_Update(Request $request){
 
-	public function admin_product_update(Request $request){
-		
-		$id = $request->id;
-		
-		$imageName = time().'.'.$request->picture->getClientOriginalExtension();
+  	// find all old data
 
-		$request->picture->move(public_path('images'), $imageName);
+    	$UpdateResearch = Research::find($request->old_id);
 
-		$product->picture = $imageName; 
+    	// update file & delete previous file
+
+    	// research file update
+
+
+		    if($request->hasFile('file')) {
+
+	            $original_name = $request->file('file');
+	            // file re name
+	            
+	            $enc_file_name = time() . '.' . $original_name->getClientOriginalExtension();
+	            // resize file destination path
+
+	            $destinationPath = public_path('project/backend/research/file/');
+
+	            // Image upload method
+	            $original_name->move($destinationPath, $enc_file_name);
+	            
+	            $old_img = $UpdateResearch->file;
 		
-		DB::update("
-		
-			update products set database_fieldname= '$request->fieldname' where id = '$id' 
-		
-		");
-			
-		$old_img = $request->old_img;
-		
-		unlink("images/".$old_img);
-		
-		return redirect()->back()->with('message', 'IT UPDATES!');
+				unlink("project/backend/research/file/".$old_img);
+
+
+        	}
+
+
+		$UpdateResearch->file = $enc_file_name;
+		$UpdateResearch->cover_image = $enc_cover_image;
+		$UpdateResearch->remember_token = $request->remember_token;
+
+		$UpdateResearch->save();
+}
