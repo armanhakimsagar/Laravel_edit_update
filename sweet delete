@@ -56,3 +56,48 @@
 
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+_______________________________________________________
+
+
+
+ajax :
+
+
+ 
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="{{ asset('project/backend/js/sweetalert.min.js')}}"></script>
+<link rel="stylesheet" href="{{ asset('project/backend/css/sweetalert.css')}}">
+
+
+
+
+  function delete_data_check(id) {
+      swal({
+          title: "Are you sure?",
+          text: "You will not be able to recover this imaginary file!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: true
+      }, function (isConfirm) {
+          if (!isConfirm) return;
+          $.ajax({
+              type: "get",
+              url: 'research_ajax_delete/'+id,
+              success: function( msg ) {
+                 $("#"+id).fadeOut(1000);
+              }
+          });
+      });
+  }
