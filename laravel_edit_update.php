@@ -22,6 +22,11 @@
 -> UPDATE (Query Builder):
 
 
+Research_file_detail::where('post_id',$request->id)
+                ->where('destination', 'San Diego')
+                ->update(['$UpdateResearch->path' => $request->training_youtube]);
+
+
 
 
    public function Research_Update(Request $request){
